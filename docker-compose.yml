@@ -1,0 +1,31 @@
+version: '3'  # Versão do Docker Compose que estamos utilizando.
+
+services:  # Definição dos serviços que serão executados.
+  
+  frontend:  # Serviço para a aplicação frontend.
+    build:  # Instruções para construir a imagem do frontend.
+      context: ./frontend  # O contexto é o diretório onde está o Dockerfile do frontend.
+    ports:  # Mapeamento de portas do contêiner para a máquina host.
+      - "3000:3000"  # O contêiner escuta na porta 3000, que será exposta na mesma porta na máquina host.
+    volumes:  # Montagem de volumes para sincronização de arquivos.
+      - ./frontend:/app  # O diretório local `frontend` é montado no diretório `/app` do contêiner.
+
+  backend:  # Serviço para a aplicação backend.
+    build:  # Instruções para construir a imagem do backend.
+      context: ./backend  # O contexto é o diretório onde está o Dockerfile do backend.
+    ports:  # Mapeamento de portas do contêiner para a máquina host.
+      - "5000:5000"  # O contêiner escuta na porta 5000, que será exposta na mesma porta na máquina host.
+    volumes:  # Montagem de volumes para sincronização de arquivos.
+      - ./backend:/app  # O diretório local `backend` é montado no diretório `/app` do contêiner.
+
+  db:  # Serviço para o banco de dados PostgreSQL.
+    image: postgres  # Imagem oficial do PostgreSQL do Docker Hub.
+    environment:  # Variáveis de ambiente para configurar o banco de dados.
+      POSTGRES_USER: user  # Nome do usuário do banco de dados.
+      POSTGRES_PASSWORD: password  # Senha do usuário do banco de dados.
+      POSTGRES_DB: taskmaster  # Nome do banco de dados a ser criado.
+    volumes:  # Montagem de volumes para persistir dados do banco de dados.
+      - pg_data:/var/lib/postgresql/data  # O volume `pg_data` é montado no diretório de dados do PostgreSQL.
+
+volumes:  # Definição de volumes.
+  pg_data:  # Nome do volume para persistência dos dados do banco de dados.
