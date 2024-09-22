@@ -1,5 +1,3 @@
-version: '3'  # Versão do Docker Compose que estamos utilizando.
-
 services:  # Definição dos serviços que serão executados.
   
   frontend:  # Serviço para a aplicação frontend.
@@ -9,6 +7,8 @@ services:  # Definição dos serviços que serão executados.
       - "3000:3000"  # O contêiner escuta na porta 3000, que será exposta na mesma porta na máquina host.
     volumes:  # Montagem de volumes para sincronização de arquivos.
       - ./frontend:/app  # O diretório local `frontend` é montado no diretório `/app` do contêiner.
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Para habilitar hot-reload no Docker
 
   backend:  # Serviço para a aplicação backend.
     build:  # Instruções para construir a imagem do backend.
