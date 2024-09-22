@@ -26,21 +26,29 @@
 - **Checagem de Estilo com ESLint**: Para manter um código limpo e consistente, garantindo a qualidade do código.
 
 ## Como Executar o Projeto
+
 1. Clone o repositório:
    ```bash
    git clone https://github.com/ggiacomini2012/TaskMaster.git
    ```
+
 2. Navegue até o diretório do projeto:
    ```bash
    cd TaskMaster
    ```
-3. Instale as dependências:
+
+3. Construa e inicie os contêineres Docker:
    ```bash
-   npm install
+   docker-compose up --build
    ```
-4. Inicie o servidor:
+
+4. Acesse o frontend em seu navegador:
+   - O **frontend** estará disponível em: [http://localhost:3000](http://localhost:3000)
+   - O **backend** estará rodando em: [http://localhost:5000](http://localhost:5000)
+
+5. Para parar os contêineres:
    ```bash
-   npm start
+   docker-compose down
    ```
 
 ## Contribuição
