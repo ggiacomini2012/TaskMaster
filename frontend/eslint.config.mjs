@@ -1,24 +1,32 @@
+import eslintPluginReact from "eslint-plugin-react";
+import eslintPluginPrettier from "eslint-plugin-prettier";
+import eslintConfigPrettier from "eslint-config-prettier";
+import babelEslintParser from "@babel/eslint-parser";
+
 export default [
   {
-    ignores: ["node_modules/**"], // Ignorar a pasta node_modules
+    ignores: ["node_modules/**"],
   },
   {
-    files: ["src/**/*.js", "src/**/*.jsx"], // Arquivos JavaScript e JSX na pasta src
+    files: ["src/**/*.js", "src/**/*.jsx"],
     languageOptions: {
-      ecmaVersion: "latest",  // Definir a versão do ECMAScript mais recente
-      sourceType: "module",  // Usar módulos ES
+      ecmaVersion: 2021,
+      sourceType: "module",
+      parser: babelEslintParser,
+      parserOptions: {
+        requireConfigFile: false,
+        babelOptions: {
+          presets: ["@babel/preset-react"], // Adiciona o preset do React
+        },
+      },
     },
     plugins: {
-      react: require("eslint-plugin-react"), // Plugin ESLint para React
-      prettier: require("eslint-plugin-prettier"),  // Plugin ESLint para Prettier
+      react: eslintPluginReact,
+      prettier: eslintPluginPrettier,
     },
-    extends: [
-      "eslint:recommended", // Usar as recomendações padrão do ESLint
-      "plugin:react/recommended", // Usar as recomendações do plugin React
-      "plugin:prettier/recommended" // Usar as recomendações do plugin Prettier
-    ],
     rules: {
-      "prettier/prettier": ["error"], // Configurar Prettier para lançar erros
+      ...eslintConfigPrettier.rules, // Inclui as regras do Prettier
+      "prettier/prettier": "error",
     },
   },
 ];
