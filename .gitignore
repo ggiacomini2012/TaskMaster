@@ -1,0 +1,13 @@
+# Dependências
+node_modules/
+package-lock.json
+
+# Build
+/dist/
+/build/
+
+# IDEs
+.vscode/
+.idea/
+
+.env
