@@ -22,6 +22,8 @@
 - **Repositório no GitHub**: Organização em um repositório no GitHub com commits semânticos.
 - **Divisão entre Frontend e Backend**: A aplicação é dividida entre frontend (React) e backend (Node.js), com uma API para comunicação entre ambos.
 - **Uso do Docker**: Containerização da aplicação, facilitando a replicação do ambiente de desenvolvimento.
+- **Commits Semânticos**: Uso de mensagens de commit que descrevem claramente as mudanças realizadas.
+- **Checagem de Estilo com ESLint**: Para manter um código limpo e consistente, garantindo a qualidade do código.
 
 ## Como Executar o Projeto
 1. Clone o repositório:
