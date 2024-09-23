@@ -1,21 +1,17 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-require('dotenv').config();
+const app = require('./app');
+const sequelize = require('./config/db');
+const User = require('./models/userModel');
+const Task = require('./models/taskModel');
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
-// Habilitar CORS para permitir requisições de outros domínios
-app.use(cors());
-
-// Middleware para processar JSON no corpo das requisições
-app.use(bodyParser.json());
-
-app.get('/', (req, res) => {
-  res.send('Backend funcionando com CORS e body-parser!');
-});
-
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+sequelize.sync({ alter: true })
+  .then(() => {
+    console.log('Tabelas sincronizadas no banco de dados');
+    app.listen(port, () => {
+      console.log(`Servidor rodando na porta ${port}`);
+    });
+  })
+  .catch(err => {
+    console.error('Erro ao sincronizar as tabelas:', err);
+  });
