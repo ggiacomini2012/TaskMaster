@@ -2,8 +2,9 @@ const app = require('./app');
 const sequelize = require('./config/db');
 const User = require('./models/userModel');
 const Task = require('./models/taskModel');
+require('dotenv').config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 sequelize.sync({ alter: true })
   .then(() => {
