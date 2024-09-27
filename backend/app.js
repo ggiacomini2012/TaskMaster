@@ -14,4 +14,8 @@ app.use(express.json());
 // Rotas de autenticação
 app.use('/api/auth', authRoutes);
 
+app.get('/', (req, res) => {
+    res.send('API rodando...');
+    });
+
 module.exports = app;
