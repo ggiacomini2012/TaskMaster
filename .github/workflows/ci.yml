@@ -59,6 +59,7 @@ jobs:
     - name: Run Backend Tests
       env:
         DATABASE_URL: postgres://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/postgres
+        NODE_ENV: test
       run: |
         cd backend
         npm test
