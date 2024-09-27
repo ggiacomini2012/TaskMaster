@@ -15,7 +15,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
-    res.send('API rodando...');
-    });
+    res.status(200).json({ message: 'API rodando...' });
+  });
 
 module.exports = app;
