@@ -1,64 +1,64 @@
 name: CI/CD Pipeline
-# Evento que dispara o workflow
+
 on:
   push:
     branches:
-      - main  # Dispara em pushs para a branch main
+      - main
   pull_request:
     branches:
-      - main  # Dispara em pull requests para a branch main
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Define o sistema operacional do runner
+    runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:latest  # Usa a imagem mais recente do PostgreSQL
+        image: postgres:latest
         env:
-          POSTGRES_DB: mydatabase  # Nome do banco de dados
-          POSTGRES_USER: postgres  # Usuário do banco de dados
-          POSTGRES_PASSWORD: password  # Senha do banco de dados
+          POSTGRES_DB: mydatabase
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
         options: > 
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5432:5432  # Mapeamento de portas
+          - 5432:5432
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2  # Faz o checkout do código
+      uses: actions/checkout@v2
 
     - name: Set up Node.js
-      uses: actions/setup-node@v2  # Configura o Node.js
+      uses: actions/setup-node@v2
       with:
-        node-version: '16'  # Escolhe a versão do Node.js
+        node-version: '16'
 
     - name: Install Dependencies (Frontend)
       run: |
         cd frontend
-        npm install  # Instala as dependências do frontend
+        npm install
 
     - name: Install Dependencies (Backend)
       run: |
         cd backend
-        npm install  # Instala as dependências do backend
+        npm install
 
     - name: Lint Frontend
       run: |
         cd frontend
-        npm run lint  # Executa o lint no frontend
+        npm run lint
 
     - name: Lint Backend
       run: |
         cd backend
-        npm run lint  # Executa o lint no backend
+        npm run lint
 
     - name: Run Backend Tests
       run: |
         cd backend
-        npm test  # Executa os testes do backend
+        npm test
 
  
