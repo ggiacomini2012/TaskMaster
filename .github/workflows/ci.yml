@@ -19,11 +19,11 @@ jobs:
           POSTGRES_DB: mydatabase  # Nome do banco de dados
           POSTGRES_USER: postgres  # Usuário do banco de dados
           POSTGRES_PASSWORD: password  # Senha do banco de dados
-        options: >-
-          --health-cmd "pg_isready -U postgres"  # Comando de verificação de saúde
-          --health-interval 10s  # Intervalo entre verificações de saúde
-          --health-timeout 5s  # Tempo limite para a verificação de saúde
-          --health-retries 5  # Número de tentativas de verificação de saúde
+        options: > 
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports:
           - 5432:5432  # Mapeamento de portas
 
@@ -61,10 +61,4 @@ jobs:
         cd backend
         npm test  # Executa os testes do backend
 
-    - name: Build and Deploy (Heroku)
-      run: |
-        heroku container:login # Faz login no Heroku
-        heroku container:push web --app your-heroku-app-name  # Envia o container para o Heroku
-        heroku container:release web --app your-heroku-app-name  # Libera o container no Heroku
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}  # Usa a chave API do Heroku armazenada nos segredos
+ 
