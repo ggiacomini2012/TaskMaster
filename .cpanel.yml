@@ -12,5 +12,8 @@ deployment:
     # Construir o frontend (gera os arquivos de produção)
     - /usr/local/bin/npm run build
 
+    # Remover arquivos antigos do diretório de deploy (opcional, para garantir que não haja arquivos obsoletos)
+    - /bin/rm -rf $DEPLOY_PATH/*
+
     # Copiar os arquivos de build para o diretório público
     - /bin/cp -a $FRONTEND_PATH/build/* $DEPLOY_PATH/
