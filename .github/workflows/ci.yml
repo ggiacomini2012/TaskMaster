@@ -92,4 +92,4 @@ jobs:
           server: ftp://ftp.buyfactoryproduct.com
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./frontend/build
+          local-dir: ./frontend/build/
