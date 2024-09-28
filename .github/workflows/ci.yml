@@ -28,64 +28,68 @@ jobs:
           - 5432:5432
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-    - name: Install Dependencies (Frontend)
-      run: |
-        cd frontend
-        npm install
+      - name: Install Dependencies (Frontend)
+        run: |
+          cd frontend
+          npm install
 
-    - name: Install Dependencies (Backend)
-      run: |
-        cd backend
-        npm install
+      - name: Install Dependencies (Backend)
+        run: |
+          cd backend
+          npm install
 
-    - name: Lint Frontend
-      run: |
-        cd frontend
-        npm run lint
+      - name: Lint Frontend
+        run: |
+          cd frontend
+          npm run lint
 
-    - name: Lint Backend
-      run: |
-        cd backend
-        npm run lint
+      - name: Lint Backend
+        run: |
+          cd backend
+          npm run lint
 
-    - name: Run Backend Tests
-      env:
-        DATABASE_URL: postgres://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/postgres
-        NODE_ENV: test
-      run: |
-        cd backend
-        npm test
+      - name: Run Backend Tests
+        env:
+          DATABASE_URL: postgres://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/postgres
+          NODE_ENV: test
+        run: |
+          cd backend
+          npm test
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-    - name: Build Frontend
-      run: |
-        cd frontend
-        npm run build
+      - name: Install Dependencies (Frontend)
+        working-directory: ./frontend
+        run: npm install
 
-    - name: Deploy to HostGator via FTP
-      uses: SamKirkland/FTP-Deploy-Action@4.3.1
-      with:
-        server: ftp://ftp.buyfactoryproduct.com
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./frontend/build
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Deploy to HostGator via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.1
+        with:
+          server: ftp://ftp.buyfactoryproduct.com
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./frontend/build
