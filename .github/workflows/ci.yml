@@ -89,7 +89,7 @@ jobs:
       - name: Deploy to HostGator via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.1
         with:
-          server: ftp://ftp.buyfactoryproduct.com
+          server: ftp://ftp.buyfactoryproduct.com:21
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./frontend/build/

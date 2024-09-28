@@ -1,0 +1,16 @@
+---
+deployment:
+  tasks:
+    - export REPO_PATH=/home4/buyfac98/taskmaster
+    - export FRONTEND_PATH=$REPO_PATH/frontend
+    - export DEPLOY_PATH=/home4/buyfac98/public_html
+
+    # Navegar até o diretório do frontend e instalar dependências
+    - cd $FRONTEND_PATH
+    - /usr/local/bin/npm install
+
+    # Construir o frontend (gera os arquivos de produção)
+    - /usr/local/bin/npm run build
+
+    # Copiar os arquivos de build para o diretório público
+    - /bin/cp -a $FRONTEND_PATH/build/* $DEPLOY_PATH/
