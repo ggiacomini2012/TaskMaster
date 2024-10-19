@@ -6,11 +6,11 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
-    ssl: {
+    ssl: process.env.NODE_ENV === 'production' ? {
       require: true,
-      rejectUnauthorized: false, // Pode ser necessário dependendo da configuração do servidor
-    },
-  },
+      rejectUnauthorized: false // Isso é importante quando estiver em produção com SSL auto-assinado
+    } : false
+  }
 });
 
 sequelize.authenticate()
