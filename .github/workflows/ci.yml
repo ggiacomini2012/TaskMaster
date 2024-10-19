@@ -28,37 +28,74 @@ jobs:
           - 5432:5432
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-    - name: Install Dependencies (Frontend)
-      run: |
-        cd frontend
-        npm install
+      - name: Install Dependencies (Frontend)
+        run: |
+          cd frontend
+          npm install
 
-    - name: Install Dependencies (Backend)
-      run: |
-        cd backend
-        npm install
+      - name: Install Dependencies (Backend)
+        run: |
+          cd backend
+          npm install
 
-    - name: Lint Frontend
-      run: |
-        cd frontend
-        npm run lint
+      - name: Lint Frontend
+        run: |
+          cd frontend
+          npm run lint
 
-    - name: Lint Backend
-      run: |
-        cd backend
-        npm run lint
+      - name: Lint Backend
+        run: |
+          cd backend
+          npm run lint
 
-    - name: Run Backend Tests
-      env:
-        DATABASE_URL: postgres://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/postgres
-      run: |
-        cd backend
-        npm test
+      - name: Run Backend Tests
+        env:
+          DATABASE_URL: postgres://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/postgres
+          NODE_ENV: test
+        run: |
+          cd backend
+          npm test
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install Dependencies (Frontend)
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Deploy to HostGator via lftp
+        env:
+          FTP_USER: "buyfac98"
+          FTP_HOST: "ftp.buyfactoryproduct.com"
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          sudo apt-get update && sudo apt-get install -y lftp
+          lftp -u $FTP_USER,$FTP_PASSWORD $FTP_HOST -e "
+          set ssl:verify-certificate no;
+          mirror -R ./frontend/build /public_html;
+          chmod -R 755 /public_html;
+          bye
+          "
