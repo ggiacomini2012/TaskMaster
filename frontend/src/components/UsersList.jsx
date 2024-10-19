@@ -7,9 +7,11 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('https://task-master-delta-eosin.vercel.app/users');
+        const response = await fetch(
+          'https://task-master-delta-eosin.vercel.app/users'
+        );
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         setUsers(data);
       } catch (error) {
         console.error('Erro ao buscar usuários:', error);
@@ -30,12 +32,23 @@ const UsersList = () => {
         <ul>
           {users.map((user) => (
             <li key={user.id}>
-            <p><strong>Username:</strong> {user.username}</p>
-            <p><strong>Password:</strong> {user.password}</p> {/* Remova essa linha se não quiser mostrar a senha */}
-            <p><strong>Criado em:</strong> {new Date(user.createdAt).toLocaleString()}</p>
-            <p><strong>Atualizado em:</strong> {new Date(user.updatedAt).toLocaleString()}</p>
-            <hr />
-          </li>
+              <p>
+                <strong>Username:</strong> {user.username}
+              </p>
+              <p>
+                <strong>Password:</strong> {user.password}
+              </p>{' '}
+              {/* Remova essa linha se não quiser mostrar a senha */}
+              <p>
+                <strong>Criado em:</strong>{' '}
+                {new Date(user.createdAt).toLocaleString()}
+              </p>
+              <p>
+                <strong>Atualizado em:</strong>{' '}
+                {new Date(user.updatedAt).toLocaleString()}
+              </p>
+              <hr />
+            </li>
           ))}
         </ul>
       ) : (
